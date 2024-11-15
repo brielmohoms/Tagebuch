@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Echo – Write your story</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Externe CSS- und JS-Bibliotheken -->
+    <!-- Zum Beispiel für Icons und Emoji-Picker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMsVh58i40OOeZYRzsJ0PfnDbJ6e4pB5rX6Ob4a" crossorigin="anonymous">
+    <!-- CSS-Styles -->
+    <style>
+        /* Grundlegende Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6; /* Sanftes rosafarbenes Farbschema */
+            color: #333;
+        }
+        /* Header-Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffcccc;
+            padding: 10px 20px;
+        }
+        /* Logo-Styles */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        /* Navigation-Styles */
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        nav li {
+            margin-left: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        /* User-Icon-Styles */
+        .user-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Main-Content-Styles */
+        main {
+            padding: 20px;
+        }
+        /* Box-Styles */
+        .box {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        /* Textarea Styles */
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            resize: vertical;
+        }
+        /* Button Styles */
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Emoji Button Styles */
+        .emoji-button {
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        /* Footer-Styles */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #ffcccc;
+        }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+            nav li {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+        }
+        /* Dark Mode Styles */
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        .dark-mode .box {
+            background-color: #444;
+        }
+        .dark-mode header, .dark-mode footer {
+            background-color: #555;
+        }
+        .dark-mode nav a {
+            color: #fff;
+        }
+        /* Calendar Styles */
+        .calendar {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 400px;
+        }
+        .calendar div {
+            width: calc(100% / 7);
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .calendar .active {
+            background-color: #ffcccc;
+            cursor: pointer;
+        }
+        /* Star Rating Styles */
+        .star-rating {
+            direction: rtl;
+            font-size: 24px;
+            unicode-bidi: bidi-override;
+            display: inline-block;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #f5b301;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header-Bereich -->
+    <header>
+        <div class="logo">Echo – Write your story</div>
+        <nav>
+            <ul>
+                <li><a href="#journal">Journal</a></li>
+                <li><a href="#history">History</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+        <div class="user-icon" onclick="toggleModal('loginModal')"><i class="fas fa-user"></i></div> <!-- Benutzer-Icon -->
+    </header>
+
+    <!-- Hauptinhalt -->
+    <main>
+        <!-- About-Seite -->
+        <section id="about">
+            <div class="box">
+                <h2>Über Echo</h2>
+                <p>Echo ist eine Tagebuch-App, die es dir ermöglicht, deine täglichen Gedanken festzuhalten und deine Stimmung zu verfolgen. Mit personalisierbaren Funktionen und einem intuitiven Design kannst du deine Geschichte auf deine Weise schreiben.</p>
+            </div>
+        </section>
+
+        <!-- Journal-Seite -->
+        <section id="journal">
+            <div class="box">
+                <h2>Journal</h2>
+                <!-- Funktionen wie Seite hinzufügen, löschen, speichern etc. -->
+                <div>
+                    <button onclick="addPage()">Seite hinzufügen</button>
+                    <button onclick="deletePage()">Seite löschen</button>
+                    <button onclick="savePage()">Seite speichern</button>
+                    <button onclick="togglePages()">Seiten anzeigen/ausblenden</button>
+                </div>
+                <!-- Texteditor für Journaleinträge -->
+                <textarea id="journalEntry" rows="10" placeholder="Schreibe hier deinen Eintrag..."></textarea>
+                <!-- Emoji-Stimmungsselektor -->
+                <div>
+                    <p>Wie fühlst du dich heute?</p>
+                    <button class="emoji-button" onclick="selectMood('😊')">&#128522;</button> <!-- Glücklich -->
+                    <button class="emoji-button" onclick="selectMood('😢')">&#128546;</button> <!-- Traurig -->
+                    <button class="emoji-button" onclick="selectMood('😐')">&#128528;</button> <!-- Neutral -->
+                    <!-- Weitere Emojis hinzufügen -->
+                </div>
+                <!-- Farbanpassung -->
+                <div>
+                    <label for="textColor">Textfarbe:</label>
+                    <input type="color" id="textColor" name="textColor">
+                    <label for="bgColor">Seitenhintergrund:</label>
+                    <input type="color" id="bgColor" name="bgColor">
+                    <button onclick="toggleDarkMode()">Dark Mode umschalten</button>
+                </div>
+                <!-- Motivationsnachricht -->
+                <div>
+                    <button onclick="showMotivation()">Motivationsnachricht anzeigen</button>
+                    <p id="motivationMessage"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- History-Seite -->
+        <section id="history">
+            <div class="box">
+                <h2>History</h2>
+                <!-- Interaktiver Kalender -->
+                <div class="calendar" id="calendar">
+                    <!-- Hier wird der Kalender generiert -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Feedback-Seite -->
+        <section id="feedback">
+            <div class="box">
+                <h2>Feedback</h2>
+                <p>Bitte bewerten Sie unsere App:</p>
+                <!-- Sternebewertung -->
+                <div class="star-rating">
+                    <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars" class="star">&#9733;</label>
+                    <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars" class="star">&#9733;</label>
+                    <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars" class="star">&#9733;</label>
+                    <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars" class="star">&#9733;</label>
+                    <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star" class="star">&#9733;</label>
+                </div>
+                <textarea id="feedbackText" rows="5" placeholder="Ihr Feedback..."></textarea>
+                <button onclick="submitFeedback()">Feedback senden</button>
+            </div>
+        </section>
+
+        <!-- Login-Modul -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span onclick="toggleModal('loginModal')" style="float:right; cursor:pointer;">&times;</span>
+                <h2>Login</h2>
+                <form onsubmit="handleLogin(event)">
+                    <label for="email">E-Mail:</label><br>
+                    <input type="email" id="email" name="email" required><br>
+                    <label for="password">Passwort:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <button type="submit">Login</button>
+                </form>
+                <p><a href="#forgot-password">Passwort vergessen?</a></p>
+                <p><a href="#register" onclick="toggleModal('registerModal'); toggleModal('loginModal')">Account erstellen</a></p>
+            </div>
+        </div>
+
+        <!-- Registrierungs-Modul -->
+        <div id="registerModal" class="modal">
+            <div class="modal-content">
+                <span onclick="toggleModal('registerModal')" style="float:right; cursor:pointer;">&times;</span>
+                <h2>Registrierung</h2>
+                <form onsubmit="handleRegistration(event)">
+                    <label for="regName">Name:</label><br>
+                    <input type="text" id="regName" name="regName" required><br>
+                    <label for="regEmail">E-Mail:</label><br>
+                    <input type="email" id="regEmail" name="regEmail" required><br>
+                    <label for="regPassword">Passwort:</label><br>
+                    <input type="password" id="regPassword" name="regPassword" required><br><br>
+                    <button type="submit">Registrieren</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer-Bereich -->
+    <footer>
+        <p>&copy; 2023 Echo – Write your story</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Dark Mode Umschalter
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Farbanpassung
+        const textColorInput = document.getElementById('textColor');
+        const bgColorInput = document.getElementById('bgColor');
+        const textArea = document.getElementById('journalEntry');
+
+        textColorInput.addEventListener('input', () => {
+            textArea.style.color = textColorInput.value;
+        });
+
+        bgColorInput.addEventListener('input', () => {
+            textArea.style.backgroundColor = bgColorInput.value;
+        });
+
+        // Motivationsnachricht anzeigen
+        function showMotivation() {
+            const messages = [
+                "Du bist großartig! Mach weiter so!",
+                "Jeder Tag ist eine neue Chance.",
+                "Glaube an dich selbst und alles ist möglich.",
+                "Du bist stärker, als du denkst."
+            ];
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            document.getElementById('motivationMessage').textContent = messages[randomIndex];
+        }
+
+        // Emoji-Stimmung auswählen
+        function selectMood(mood) {
+            alert(`Deine Stimmung wurde als "${mood}" gespeichert.`);
+            // Hier würde die Stimmung an das Backend gesendet werden
+        }
+
+        // Kalender generieren
+        function generateCalendar() {
+            const calendarElement = document.getElementById('calendar');
+            const daysInMonth = 30; // Beispielwert
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = i;
+                dayElement.classList.add('active');
+                dayElement.onclick = () => {
+                    alert(`Eintrag vom ${i}. anzeigen.`);
+                    // Hier würde der Eintrag vom entsprechenden Datum geladen werden
+                };
+                calendarElement.appendChild(dayElement);
+            }
+        }
+        generateCalendar();
+
+        // Login und Registrierung
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+        function handleLogin(event) {
+            event.preventDefault();
+            // Hier würde die Login-Logik implementiert werden
+            alert('Login erfolgreich!');
+            toggleModal('loginModal');
+        }
+        function handleRegistration(event) {
+            event.preventDefault();
+            // Hier würde die Registrierungs-Logik implementiert werden
+            alert('Registrierung erfolgreich!');
+            toggleModal('registerModal');
+        }
+
+        // Feedback senden
+        function submitFeedback() {
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const feedbackText = document.getElementById('feedbackText').value;
+            if (rating) {
+                alert(`Vielen Dank für Ihr Feedback! Bewertung: ${rating.value} Sterne`);
+                // Hier würde das Feedback an das Backend gesendet werden
+            } else {
+                alert('Bitte geben Sie eine Bewertung ab.');
+            }
+        }
+
+        // Platzhalterfunktionen für Seitenverwaltung
+        function addPage() {
+            alert('Neue Seite hinzugefügt.');
+            // Logik zum Hinzufügen einer neuen Seite
+        }
+        function deletePage() {
+            alert('Seite gelöscht.');
+            // Logik zum Löschen der aktuellen Seite
+        }
+        function savePage() {
+            alert('Seite gespeichert.');
+            // Logik zum Speichern der aktuellen Seite
+        }
+        function togglePages() {
+            alert('Seiten ein-/ausgeblendet.');
+            // Logik zum Anzeigen oder Ausblenden der Seiten
+        }
+
+        // Automatisches Logout nach 1 Stunde Inaktivität
+        let inactivityTime = function () {
+            let time;
+            window.onload = resetTimer;
+            document.onmousemove = resetTimer;
+            document.onkeypress = resetTimer;
+
+            function logout() {
+                alert("Sie wurden aufgrund von Inaktivität abgemeldet.");
+                // Hier würde die Logout-Logik implementiert werden
+            }
+
+            function resetTimer() {
+                clearTimeout(time);
+                time = setTimeout(logout, 3600000); // 1 Stunde in Millisekunden
+            }
+        };
+        inactivityTime();
+
+        // Autosave-Funktionalität
+        function autoSave() {
+            // Hier würde die Autosave-Logik implementiert werden
+            console.log('Eintrag automatisch gespeichert.');
+        }
+        setInterval(autoSave, 300000); // Alle 5 Minuten speichern
+
+    </script>
+
+</body>
+</html>
