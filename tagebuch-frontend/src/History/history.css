@@ -1,0 +1,124 @@
+/*Universal reset*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*basic body styles*/
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fce4ec;
+}
+
+.history-container{
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    min-height: 90vh;
+}
+
+.history-content{
+    width: 100%;
+}
+
+.title{
+    font-size: 2.5rem;
+    color: #880e4f;
+    margin-bottom: 20px;
+    text-align: justify;
+    padding-top: 15px;
+    font-weight: bold;
+}
+
+.history-body{
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+    background-color: #f8bbd0;
+    border-radius: 5px;
+    padding: 40px;
+    align-items: stretch;
+    width: 100%;
+}
+
+.content-box {
+    max-width: 100%;
+    flex: 1;
+    background-color: #e8eaf6;
+    border: 1px solid #5c6bc0;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea{
+    width: 100%;
+    height: 85%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1.3rem;
+    font-family: "Arial", sans-serif;
+    margin-bottom: 20px;
+}
+
+.save-button {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.0rem;
+}
+  
+.save-button:hover {
+    background-color: #c2185b;
+}
+  
+.custom-calendar {
+    width: 100%;
+    height: 100%;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+}
+  
+.react-calendar__tile--active {
+    background-color: #f48fb1 !important;
+    color: white !important;
+    border-radius: 50%;
+}
+  
+.react-calendar__tile:hover {
+    background-color: #f8bbd0 !important;
+}
+
+@media (max-width: 768px) {
+    .history-body {
+        flex-direction: column;  /* Stack the left and calendar content vertically */
+        gap: 20px;               /* Reduce the gap between elements */
+        padding: 20px;           /* Adjust padding */
+    }
+
+    .content-box {
+        max-width: 100%; 
+        flex: 1;      
+        margin: 20px;
+    }
+
+    .textarea {
+        min-height: 300px;       /* Adjust the height of the textarea */
+    }
+
+
+    .save-button {
+        width: 100%;             /* Make the button take full width */
+    }
+}
