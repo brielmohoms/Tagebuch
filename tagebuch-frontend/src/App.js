@@ -6,7 +6,8 @@ import Journal from './Journal/journal';
 import History from './History/history';
 import Feedback from './Feedback/feedback';
 import Login from './Login/login';
-import Register from './Register/register';
+import Register from './Login/register';
+
 
 function App() {
   return (
