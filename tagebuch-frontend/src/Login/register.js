@@ -15,9 +15,9 @@ const Register = () => {
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="auth-title">Registrieren</h2>
+        <h2 className="auth-title">Registration</h2>
         <div className="auth-field">
-          <label>Benutzername</label>
+          <label>User name</label>
           <input
             type="text"
             value={username}
@@ -35,7 +35,7 @@ const Register = () => {
           />
         </div>
         <div className="auth-field">
-          <label>Passwort</label>
+          <label>Password</label>
           <input
             type="password"
             value={password}
@@ -44,10 +44,10 @@ const Register = () => {
           />
         </div>
         <button type="submit" className="auth-button">
-          Registrieren
+          Register
         </button>
         <p className="auth-switch">
-          Bereits ein Konto? <Link to="/login">Hier anmelden</Link>
+          Already have an account? <Link to="/login">Login here</Link>
         </p>
       </form>
     </div>

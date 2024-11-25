@@ -14,7 +14,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="auth-title">Anmelden</h2>
+        <h2 className="auth-title">Login</h2>
         <div className="auth-field">
           <label>E-Mail</label>
           <input
@@ -25,7 +25,7 @@ const Login = () => {
           />
         </div>
         <div className="auth-field">
-          <label>Passwort</label>
+          <label>Password</label>
           <input
             type="password"
             value={password}
@@ -34,10 +34,10 @@ const Login = () => {
           />
         </div>
         <button type="submit" className="auth-button">
-          Anmelden
+          Login
         </button>
         <p className="auth-switch">
-          Noch kein Konto? <Link to="/register">Hier registrieren</Link>
+          Don´t have an account? <Link to="/register">Register now!</Link>
         </p>
       </form>
     </div>
