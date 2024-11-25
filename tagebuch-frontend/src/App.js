@@ -6,6 +6,7 @@ import Journal from './Journal/journal';
 import History from './History/history';
 import Feedback from './Feedback/feedback';
 import Login from './Login/login';
+import Register from './Register/register';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/history" element={<History />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Layout>
     </Router>
