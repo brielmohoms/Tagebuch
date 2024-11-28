@@ -1,0 +1,78 @@
+.navbar {
+  display: flex;
+  align-items: center;    
+  justify-content: space-between;
+  background-color: #e6c4cf;
+  border-radius: 5px;
+  height: 80px;
+  padding: 0px;
+}
+  
+.navbar-logo {
+  height: 100%;
+  width: 130px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 35px;
+  margin: 0;
+  padding: 0;
+}
+  
+.navbar-links li {
+  display: inline;
+}
+  
+.navbar-links a {
+  text-decoration: none;
+  color: #880e4f;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+  
+.navbar-links a:hover {
+  color: #ff69b4;
+}
+
+.hamburger-menu {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none; /* Hide links by default */
+    flex-direction: column; /* Stack links vertically */
+    width: 100%;
+    background-color: #e6c4cf;
+    position: absolute;
+    top: 80px; /* Position below the navbar */
+    left: 0;
+    padding: 10px 0;
+    border-radius: 5px;
+  }
+
+  /* Show the navbar links when the menu is active */
+  .navbar-links.active {
+    display: flex;
+  }
+
+  /* Display hamburger menu on small screens */
+  .hamburger-menu {
+    display: block;
+    padding-right: 20px;
+  }
+
+  /* Adjust the navbar links */
+  .navbar-links li {
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .navbar-links a {
+    font-size: 1.2rem; /* Adjust font size for mobile */
+  }
+}
