@@ -20,8 +20,7 @@ const Navbar = () => {
         <li><a href="/history">History</a></li>
         <li><a href="/feedback">Feedback</a></li>
         <li><a href="/login">Login</a></li>
-        <li><a href="/register">Registration</a></li>
-
+        
       </ul>
     </nav>
   );

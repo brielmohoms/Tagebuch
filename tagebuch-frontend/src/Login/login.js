@@ -1,14 +1,40 @@
+// src/components/Login.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [passwort, setPasswort] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Hier kannst du die Login-Logik implementieren
+
+    const user = { email, passwort };
+
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+
+      const data = await res.json();
+
+      if (res.status === 200) {
+        // Token speichern (z.B. in localStorage)
+        localStorage.setItem('token', data.token);
+        alert('Login erfolgreich');
+        // Weiterleitung oder weitere Aktionen
+      } else {
+        alert(data.msg || 'Anmeldung fehlgeschlagen');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Es gab ein Problem beim Anmelden');
+    }
   };
 
   return (
@@ -25,11 +51,11 @@ const Login = () => {
           />
         </div>
         <div className="auth-field">
-          <label>Password</label>
+          <label>Passwort</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwort}
+            onChange={(e) => setPasswort(e.target.value)}
             required
           />
         </div>
@@ -37,7 +63,7 @@ const Login = () => {
           Login
         </button>
         <p className="auth-switch">
-          Don´t have an account? <Link to="/register">Register now!</Link>
+          Noch kein Konto? <Link to="/register">Jetzt registrieren!</Link>
         </p>
       </form>
     </div>

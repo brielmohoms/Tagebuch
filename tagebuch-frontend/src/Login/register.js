@@ -1,27 +1,53 @@
+// src/components/Register.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './register.css';
 
 const Register = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [passwort, setPasswort] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Hier kannst du die Registrierungs-Logik implementieren
+
+    const newUser = { name, email, passwort };
+
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+      });
+
+      const data = await res.json();
+
+      if (res.status === 200) {
+        // Token speichern (z.B. in localStorage)
+        localStorage.setItem('token', data.token);
+        alert('Registrierung erfolgreich');
+        // Weiterleitung oder weitere Aktionen
+      } else {
+        alert(data.msg || 'Registrierung fehlgeschlagen');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Es gab ein Problem bei der Registrierung');
+    }
   };
 
   return (
     <div className="auth-container">
       <form className="auth-form" onSubmit={handleSubmit}>
-        <h2 className="auth-title">Registration</h2>
+        <h2 className="auth-title">Registrierung</h2>
         <div className="auth-field">
-          <label>User name</label>
+          <label>Benutzername</label>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
@@ -35,19 +61,19 @@ const Register = () => {
           />
         </div>
         <div className="auth-field">
-          <label>Password</label>
+          <label>Passwort</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwort}
+            onChange={(e) => setPasswort(e.target.value)}
             required
           />
         </div>
         <button type="submit" className="auth-button">
-          Register
+          Registrieren
         </button>
         <p className="auth-switch">
-          Already have an account? <Link to="/login">Login here</Link>
+          Bereits ein Konto? <Link to="/login">Hier einloggen</Link>
         </p>
       </form>
     </div>
