@@ -1,0 +1,125 @@
+/* src/Journal/Journal.css */
+.journal-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .journal-container.dark-mode {
+    background-color: #151515;
+    color: #fff;
+  }
+  
+  .quote-section {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .quote {
+    font-size: 24px;
+    font-style: italic;
+    color: #555;
+  }
+  
+  /* Menu positioned under the navbar */
+  .menu {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    background-color: #7C7474;
+    width: 100%;
+    position: sticky; /* Makes it stick to the top after scrolling */
+    top: 60px; /* Ensure it’s just below the navbar */
+    z-index: 10;
+    border-radius: 8px;  /* Optional: Rounded corners for the menu */
+  }
+  
+  .menu-button {
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .menu-button.dark-mode-toggle {
+    background-color: transparent;
+    color: #fff;
+  }
+  
+  .menu-button.add-page {
+    background-color: #DA1766;
+    color: #fff;
+  }
+  
+  .menu-button.add-page:hover {
+    background-color: #FBD4D8;
+  }
+  
+  .menu-button.delete-page {
+    background-color: #151515;
+    color: #fff;
+  }
+  
+  .menu-button.delete-page:hover {
+    background-color: #7C7474;
+  }
+  
+  .page {
+    margin-top: 20px; /* Make room for the sticky menu */
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 300px;
+    padding: 10px;
+    font-size: 18px;
+    background: transparent;
+    border: 2px solid #7C7474;
+    border-radius: 10px;
+    resize: none;
+    margin-bottom: 20px;
+  }
+  
+  .save-section {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .save-section button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #DA1766;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .save-section button:hover {
+    background-color: #FBD4D8;
+    color: #151515;
+  }
+  
+  .page-count {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
