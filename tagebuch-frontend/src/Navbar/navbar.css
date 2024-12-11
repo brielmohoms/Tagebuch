@@ -77,3 +77,21 @@
     font-size: 1.2rem; /* Adjust font size for mobile */
   }
 }
+
+@media (min-width: 1600px){
+  .navbar{
+    height: 110px;
+  }
+
+  .navbar-logo{
+    width: 150px;
+  }
+
+  .navbar-links{
+    gap: 50px;
+  }
+
+  .navbar-links a{
+    font-size: 2rem;
+  }
+}
