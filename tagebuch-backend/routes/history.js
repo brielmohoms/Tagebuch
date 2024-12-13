@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const History = require('../models/History');
+const HistoryEntry = require('../models/History');
 
 // Get history entry by date
 router.get('/:date', async (req, res) => {
@@ -8,7 +8,7 @@ router.get('/:date', async (req, res) => {
     const { date } = req.params;
     console.log('Date parameter received from frontend:', date);
 
-    const entry = await JournalEntry.findOne({ date });
+    const entry = await HistoryEntry.findOne({ date });
     console.log('Entry fetched from database:', entry);
 
     if (!entry) {
@@ -18,26 +18,24 @@ router.get('/:date', async (req, res) => {
 
     res.send(entry);
   } catch (err) {
-    console.error('Error fetching journal entry:', err);
-    res.status(500).send({ message: 'Error fetching journal entry' });
+    console.error('Error fetching history entry:', err);
+    res.status(500).send({ message: 'Error fetching history entry' });
   }
 });
 
-
-// Create or update a history entry
+//Create or update a history entry
 router.post('/', async (req, res) => {
     try {
         const { date, content } = req.body;
         console.log('Received date:', req.body.date);
         console.log('Parsed date:', parsedDate);
 
-
-        // Parse the date to ensure correct time zone handling
+        //Parse the date to ensure correct time zone
         const parsedDate = moment(date).format('YYYY-MM-DD');
         
-        const journal = new JournalEntry({ date: parsedDate, content });
-        await journal.save();
-        res.status(201).send(journal);
+        const history = new History({ date: parsedDate, content });
+        await history.save();
+        res.status(201).send(history);
     } catch (err) {
         res.status(400).send(err);
     }
