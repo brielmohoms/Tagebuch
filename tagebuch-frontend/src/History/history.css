@@ -25,12 +25,11 @@ body{
 }
 
 .title{
-    font-size: 2.7rem;
+    font-size: 2.5rem;
     color: #DA1766;
     margin-bottom: 20px;
     text-align: justify;
     padding-top: 15px;
-    font-family: 'Times New Roman', Times, serif;
 }
 
 .history-body{
@@ -100,29 +99,6 @@ body{
     background-color: #f8bbd0 !important;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Times New Roman', Times, serif;
-}
-  
-.dropdown {
-    font-size: 2.0rem;
-    padding: 5px 10px;
-    border: 1px solid #5c6bc0;
-    border-radius: 5px;
-    background-color: #e8eaf6;
-    color: #5c6bc0;
-    cursor: pointer;
-}
-  
-.dropdown:focus {
-    outline: none;
-    box-shadow: 0 0 5px #5c6bc0;
-}
-
-  
 @media (max-width: 768px) {
     .history-body {
         flex-direction: column;  /* Stack the left and calendar content vertically */
