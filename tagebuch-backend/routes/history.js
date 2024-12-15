@@ -27,17 +27,33 @@ router.get('/:date', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { date, content } = req.body;
-        console.log('Received date:', req.body.date);
-        console.log('Parsed date:', parsedDate);
+        console.log('Received date:', date);
+        console.log('Received content:', content);
+
+        if (!date || !content) {
+          return res.status(400).send({ message: 'Date and content are required' });
+        }
 
         //Parse the date to ensure correct time zone
         const parsedDate = moment(date).format('YYYY-MM-DD');
+        console.log('Parsed date:', parsedDate);
+
+        const existingEntry = await HistoryEntry.findOne({ date: parsedDate });
+        if (existingEntry) {
+          // If entry exists, update it
+          existingEntry.content = content;
+          await existingEntry.save();
+          console.log('Entry updated:', existingEntry);
+          return res.status(200).send(existingEntry);
+        }
         
         const history = new History({ date: parsedDate, content });
         await history.save();
+        console.log('New entry created:', history)
         res.status(201).send(history);
     } catch (err) {
-        res.status(400).send(err);
+      console.error('Error saving history entry:', err);
+      res.status(500).send({ message: 'Error saving history entry' });
     }
 });
 

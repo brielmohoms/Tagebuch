@@ -47,6 +47,20 @@ const History = () => {
         setCurrentEntry(selectedEntries[formattedDate] || '');
     };
 
+    /*const saveEntry = async () => {
+        const formattedDate = formatDate(selectedDate);
+        console.log('Selected date (local):', new Date(selectedDate).toLocaleString());
+        console.log('Formatted date:', formatDate(selectedDate));
+
+        const content = currentEntry;
+        const endpoint = view === 'Journal' 
+            ? 'http://localhost:5000/api/journal' 
+            : 'http://localhost:5000/api/history';
+    
+        await axios.post(endpoint, { date: formattedDate, content });
+        alert(`${view} entry saved!`);
+    };*/
+
     const saveEntry = async () => {
         const formattedDate = formatDate(selectedDate);
         console.log('Selected date (local):', new Date(selectedDate).toLocaleString());
@@ -60,6 +74,7 @@ const History = () => {
         await axios.post(endpoint, { date: formattedDate, content });
         alert(`${view} entry saved!`);
     };
+      
 
     const inputChange = (e) => {
         if (view === 'Journal') {
