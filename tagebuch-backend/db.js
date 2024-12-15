@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 const db = require('./db');
 const User = require('./models/User');
@@ -52,7 +51,7 @@ db.once('open', async () => {
     console.error('Fehler:', error);
   }
 });
-=======
+
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
@@ -77,4 +76,4 @@ if (entry) {
 
 
 module.exports = connectDB;
->>>>>>> 4964de434bf79f0b66baa2256b60049c891a15ad
+
