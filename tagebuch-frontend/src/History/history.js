@@ -27,7 +27,7 @@ const History = () => {
         }
     };
 
-    /*const saveEntry = async () => {
+    const saveEntry = async () => {
         const formattedDate = formatDate(selectedDate);
         console.log('Selected date (local):', new Date(selectedDate).toLocaleString());
         console.log('Formatted date:', formatDate(selectedDate));
@@ -39,17 +39,7 @@ const History = () => {
     
         await axios.post(endpoint, { date: formattedDate, content });
         alert(`${view} entry saved!`);
-    };*/
-
-    const saveEntry = () => {
-        const formattedDate = formatDate(selectedDate);
-        setEntries((previousEntries) => ({
-            ...previousEntries,
-            [formattedDate]: currentEntry,
-        }));
-        alert("Entry saved");
     };
-      
 
     const inputChange = (e) => {
         setCurrentEntry(e.target.value);
