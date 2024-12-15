@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const HistoryEntry = require('../models/History');
+const History = require('../models/History');
 
-// Get history entry by date
-router.get('/:date', async (req, res) => {
-  try {
+// API Endpoints
+
+// Get entry by date
+app.get('/entries/:date', async (req, res) => {
     const { date } = req.params;
     console.log('Date parameter received from frontend:', date);
 
-    const entry = await HistoryEntry.findOne({ date });
+    const entry = await JournalEntry.findOne({ date });
     console.log('Entry fetched from database:', entry);
 
     if (!entry) {
@@ -18,43 +19,33 @@ router.get('/:date', async (req, res) => {
 
     res.send(entry);
   } catch (err) {
-    console.error('Error fetching history entry:', err);
-    res.status(500).send({ message: 'Error fetching history entry' });
+    console.error('Error fetching journal entry:', err);
+    res.status(500).send({ message: 'Error fetching journal entry' });
   }
 });
 
-//Create or update a history entry
+
+// Create or update a history entry
 router.post('/', async (req, res) => {
     try {
         const { date, content } = req.body;
-        console.log('Received date:', date);
-        console.log('Received content:', content);
-
-        if (!date || !content) {
-          return res.status(400).send({ message: 'Date and content are required' });
-        }
-
-        //Parse the date to ensure correct time zone
-        const parsedDate = moment(date).format('YYYY-MM-DD');
+        console.log('Received date:', req.body.date);
         console.log('Parsed date:', parsedDate);
 
-        const existingEntry = await HistoryEntry.findOne({ date: parsedDate });
-        if (existingEntry) {
-          // If entry exists, update it
-          existingEntry.content = content;
-          await existingEntry.save();
-          console.log('Entry updated:', existingEntry);
-          return res.status(200).send(existingEntry);
-        }
+
+        // Parse the date to ensure correct time zone handling
+        const parsedDate = moment(date).format('YYYY-MM-DD');
         
-        const history = new History({ date: parsedDate, content });
-        await history.save();
-        console.log('New entry created:', history)
-        res.status(201).send(history);
+        const journal = new JournalEntry({ date: parsedDate, content });
+        await journal.save();
+        res.status(201).send(journal);
     } catch (err) {
-      console.error('Error saving history entry:', err);
-      res.status(500).send({ message: 'Error saving history entry' });
+        res.status(400).send(err);
     }
 });
 
-module.exports = router;
+// Start Server
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
