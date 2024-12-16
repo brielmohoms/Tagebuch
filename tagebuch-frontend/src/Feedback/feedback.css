@@ -1,0 +1,69 @@
+.feedback-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.3s ease;
+}
+
+.star.selected {
+  color: #f4b400; /* Gold color for selected stars */
+}
+
+.feedback-form button {
+  padding: 10px;
+  background-color: #da1766;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.feedback-form button:hover {
+  background-color: #fbd4d8;
+}
+
+.feedback-list {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
+
+.feedback-list li {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.feedback-list .stars {
+  font-size: 20px;
+  color: #f4b400; /* Gold color for stars */
+}

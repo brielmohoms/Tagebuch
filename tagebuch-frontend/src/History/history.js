@@ -27,13 +27,18 @@ const History = () => {
         }
     };
 
-    const saveEntry = () => {
+    const saveEntry = async () => {
         const formattedDate = formatDate(selectedDate);
-        setEntries((previousEntries) => ({
-            ...previousEntries,
-            [formattedDate]: currentEntry,
-        }));
-        alert("Entry saved");
+        console.log('Selected date (local):', new Date(selectedDate).toLocaleString());
+        console.log('Formatted date:', formatDate(selectedDate));
+
+        const content = currentEntry;
+        const endpoint = view === 'Journal' 
+            ? 'http://localhost:5000/api/journal' 
+            : 'http://localhost:5000/api/history';
+    
+        await axios.post(endpoint, { date: formattedDate, content });
+        alert(`${view} entry saved!`);
     };
 
     const inputChange = (e) => {

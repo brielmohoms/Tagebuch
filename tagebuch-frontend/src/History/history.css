@@ -26,11 +26,10 @@ body{
 
 .title{
     font-size: 2.5rem;
-    color: #880e4f;
+    color: #DA1766;
     margin-bottom: 20px;
     text-align: justify;
     padding-top: 15px;
-    font-weight: bold;
 }
 
 .history-body{
@@ -120,5 +119,35 @@ body{
 
     .save-button {
         width: 100%;             /* Make the button take full width */
+    }
+}
+
+@media (min-width: 1600px) {
+    .history-body{
+        padding: 60px;
+        gap: 80px;
+    }
+
+    .content-box{
+        padding: 40px;
+        min-width: 70vh;
+    }
+
+    .custom-calendar{
+        font-size: 1.7rem;
+        padding: 20px;
+    }
+
+    .textarea{
+        font-size: 1.3rem;
+    }
+
+    .title{
+        font-size: 3.2rem;
+    }
+
+    .save-button{
+        font-size: 1.2rem;
+        padding: 15px 25px;
     }
 }

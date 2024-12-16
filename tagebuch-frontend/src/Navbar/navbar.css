@@ -27,9 +27,10 @@
   
 .navbar-links a {
   text-decoration: none;
-  color: #880e4f;
+  color: #DA1766;
   font-weight: bold;
   font-size: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
 }
   
 .navbar-links a:hover {
@@ -74,5 +75,23 @@
 
   .navbar-links a {
     font-size: 1.2rem; /* Adjust font size for mobile */
+  }
+}
+
+@media (min-width: 1600px){
+  .navbar{
+    height: 110px;
+  }
+
+  .navbar-logo{
+    width: 150px;
+  }
+
+  .navbar-links{
+    gap: 50px;
+  }
+
+  .navbar-links a{
+    font-size: 2rem;
   }
 }
