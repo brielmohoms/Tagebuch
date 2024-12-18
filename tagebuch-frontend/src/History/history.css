@@ -99,6 +99,25 @@ body{
     background-color: #f8bbd0 !important;
 }
 
+.source-selection {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.source-selection label {
+    font-weight: bold;
+    color: #333;
+}
+
+.source-selection select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
     .history-body {
         flex-direction: column;  /* Stack the left and calendar content vertically */

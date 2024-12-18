@@ -5,8 +5,8 @@ import "./history.css";
 
 const History = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [entries, setEntries] = useState({});
     const [currentEntry, setCurrentEntry] = useState("");
+    const [source, setSource] = useState('history');
 
 
     const formatDate = (date) => {
@@ -15,30 +15,57 @@ const History = () => {
         return localDate.toISOString().split("T")[0];
     };
 
-    const dateChange = (date) => {
-        setSelectedDate(date);
+    const handleSourceChange = (e) => {
+        setSource(e.target.value);
+        fetchEntry(formatDate(selectedDate));
+    }
 
-        const formattedDate = formatDate(date);
-
-        if(formattedDate === formatDate(new Date())){
-            setCurrentEntry(entries[formattedDate] || "");
-        } else {
-            setCurrentEntry(entries[formattedDate] || "");
+    const fetchEntry = async (date) => {
+        const token = localStorage.getItem("token"); // Fetch token
+        const endpoint = source === 'journal'
+            ? `http://localhost:5000/api/journal/${date}`
+            : `http://localhost:5000/api/history/${date}`;
+    
+        try {
+            const response = await fetch(endpoint, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                setCurrentEntry(data.content || ""); // Update content
+            } else {
+                setCurrentEntry(""); // Clear if no entry is found
+            }
+        } catch (error) {
+            console.error("Error fetching entry:", error);
+            setCurrentEntry("");
         }
     };
 
-    const saveEntry = async () => {
-        const formattedDate = formatDate(selectedDate);
-        console.log('Selected date (local):', new Date(selectedDate).toLocaleString());
-        console.log('Formatted date:', formatDate(selectedDate));
-
-        const content = currentEntry;
-        const endpoint = view === 'Journal' 
-            ? 'http://localhost:5000/api/journal' 
-            : 'http://localhost:5000/api/history';
+    const dateChange = async (date) => {
+        setSelectedDate(date);
+        const formattedDate = formatDate(date);
+        fetchEntry(formattedDate); // Fetch the entry for the selected date
+    };
     
-        await axios.post(endpoint, { date: formattedDate, content });
-        alert(`${view} entry saved!`);
+
+    const saveEntry = async () => {
+        const token = localStorage.getItem("token");
+        const formattedDate = formatDate(selectedDate);
+      
+        try {
+            await fetch("http://localhost:5000/api/journal/save", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ date: formattedDate, content: currentEntry }),
+            });
+        } catch (error) {
+            console.error("Error saving entry:", error); // Log errors for debugging
+        }
     };
 
     const inputChange = (e) => {
@@ -49,12 +76,21 @@ const History = () => {
         <div className='history-container'>
             <main className='history-content'>
                 <h2 className='title'>History</h2>
+                <div className='source-selection'>
+                    <label>Select Source:</label>
+                    <select value={source} onChange={handleSourceChange}>
+                        <option value="history">History</option>
+                        <option value="journal">Journal</option>
+                    </select>
+                </div>
+
                 <div className='history-body'>
                     <section className='content-box'>
-                        <textarea value={currentEntry} 
-                        onChange={inputChange}
-                        placeholder='Write something ...'
-                        className='textarea'>
+                        <textarea
+                            value={currentEntry}
+                            onChange={inputChange}
+                            placeholder='Write something ...'
+                            className='textarea'>
                         </textarea>
                         <button onClick={saveEntry} className='save-button'>
                             Save Entry
