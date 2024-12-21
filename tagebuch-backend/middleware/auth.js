@@ -2,17 +2,20 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = function (req, res, next) {
-  // Token aus Header holen
-  const token = req.header('x-auth-token');
-
-  // Kein Token vorhanden
-  if (!token) {
+  const authHeader = req.header('Authorization');
+  if (!authHeader) {
     return res.status(401).json({ msg: 'Kein Token, Autorisierung verweigert' });
   }
 
-  // Token verifizieren
+  const parts = authHeader.split(' ');
+  if (parts.length !== 2 || parts[0] !== 'Bearer') {
+    return res.status(401).json({ msg: 'Token-Format falsch' });
+  }
+
+  const token = parts[1];
+
   try {
-    const decoded = jwt.verify(token, 'dein_jwt_geheimnis'); // Ersetze durch dein eigenes Geheimnis
+    const decoded = jwt.verify(token, 'dein_jwt_geheimnis');
     req.user = decoded.user;
     next();
   } catch (err) {

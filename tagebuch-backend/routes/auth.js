@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const auth = require('../middleware/auth');
 
 // Registrierungsroute
 router.post('/register', async (req, res) => {
@@ -30,7 +31,7 @@ router.post('/register', async (req, res) => {
     // Benutzer speichern
     await user.save();
 
-    // JWT erstellen und zurückgeben
+    // JWT erstellen
     const payload = {
       user: {
         id: user.id
@@ -69,7 +70,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Ungültige Anmeldedaten' });
     }
 
-    // JWT erstellen und zurückgeben
+    // JWT erstellen
     const payload = {
       user: {
         id: user.id
@@ -78,13 +79,27 @@ router.post('/login', async (req, res) => {
 
     jwt.sign(
       payload,
-      'dein_jwt_geheimnis', // Ersetze durch dein eigenes Geheimnis
+      'dein_jwt_geheimnis',
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
         res.json({ token });
       }
     );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Serverfehler');
+  }
+});
+
+// Route um den aktuellen Benutzer zurückzugeben
+router.get('/me', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-passwort');
+    if (!user) {
+      return res.status(404).json({ msg: 'Benutzer nicht gefunden' });
+    }
+    res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Serverfehler');

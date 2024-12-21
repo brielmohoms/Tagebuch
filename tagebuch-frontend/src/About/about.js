@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaPen, FaShieldAlt, FaHistory, FaCommentDots, FaSun } from 'react-icons/fa'; // Import icons from react-icons
+import { FaPen, FaShieldAlt, FaHistory, FaCommentDots, FaSun } from 'react-icons/fa';
+
 import './about.css'; // Import a CSS file for styling
 
 const About = () => {

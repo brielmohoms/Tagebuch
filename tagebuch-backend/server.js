@@ -6,22 +6,28 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware to parse JSON bodies
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Import routes
+// Routen importieren
 const authRoutes = require('./routes/auth');
+const journalRoutes = require('./routes/journal');
+const motivationRoutes = require('./routes/motivationalMessage');
+const feedbackRoutes = require('./routes/feedback');
 
-// Use routes
+// Routen registrieren
 app.use('/api/auth', authRoutes);
+app.use('/api/journal', journalRoutes);
+app.use('/api/motivation', motivationRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
-// Basic route
+// Test-Route
 app.get('/', (req, res) => {
   res.send('Welcome to Tagebuch API');
 });
 
-// MongoDB connection
+// MongoDB-Verbindung
 mongoose.connect('mongodb://localhost/tagebuch', {
   useNewUrlParser: true,
   useUnifiedTopology: true
