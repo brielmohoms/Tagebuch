@@ -93,7 +93,7 @@ const History = () => {
                             className='textarea'>
                         </textarea>
                         <button onClick={saveEntry} className='save-button'>
-                            Save Entry
+                            Save
                         </button>
                     </section>
 
