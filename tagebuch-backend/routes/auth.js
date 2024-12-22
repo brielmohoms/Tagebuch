@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
 
+// Für das Senden der Bestätigungsmail:
+const nodemailer = require('nodemailer');
+
 // Registrierungsroute
 router.post('/register', async (req, res) => {
   const { name, email, passwort } = req.body;
@@ -31,6 +34,39 @@ router.post('/register', async (req, res) => {
     // Benutzer speichern
     await user.save();
 
+    // Bestätigungs-E-Mail versenden (ignoriere Fehler, wenn E-Mail ungültig oder das Senden nicht klappt)
+    try {
+      // Beispielkonfiguration mit Gmail (bitte anpassen):
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'deineAbsenderAdresse@gmail.com',
+          pass: 'deinGooglePasswortOderAppPasswort'
+        }
+      });
+
+      // Mail-Optionen
+      const mailOptions = {
+        from: 'deineAbsenderAdresse@gmail.com',
+        to: user.email,
+        subject: 'Willkommen – Deine Registrierung bei TagebuchApp',
+        text: `Hallo ${user.name},\n\nvielen Dank für deine Registrierung!\n\nDein Team von TagebuchApp`
+      };
+
+      // E-Mail senden
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Fehler beim Senden der Bestätigungs-E-Mail:', error);
+          // Fehler wird ignoriert
+        } else {
+          console.log('Bestätigungs-E-Mail gesendet:', info.response);
+        }
+      });
+    } catch (mailErr) {
+      console.error('Allgemeiner Mail-Fehler:', mailErr);
+      // Ignorieren
+    }
+
     // JWT erstellen
     const payload = {
       user: {
@@ -44,7 +80,8 @@ router.post('/register', async (req, res) => {
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        // Token an den Client senden
+        res.status(200).json({ token });
       }
     );
   } catch (err) {
