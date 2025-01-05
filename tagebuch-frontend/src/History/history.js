@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/History/history.js
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import "react-calendar/dist/Calendar.css";
 import "./history.css";
@@ -8,7 +9,6 @@ const History = () => {
     const [currentEntry, setCurrentEntry] = useState("");
     const [source, setSource] = useState('history');
 
-
     const formatDate = (date) => {
         const localDate = new Date(date);
         localDate.setHours(0, 0, 0, 0);
@@ -17,25 +17,24 @@ const History = () => {
 
     const handleSourceChange = (e) => {
         setSource(e.target.value);
-        fetchEntry(formatDate(selectedDate));
-    }
+        fetchEntry(formatDate(selectedDate), e.target.value);
+    };
 
-    const fetchEntry = async (date) => {
-        const token = localStorage.getItem("token"); // Fetch token
-        const endpoint = source === 'journal'
+    const fetchEntry = async (date, selectedSource = source) => {
+        const token = localStorage.getItem("token");
+        const endpoint = selectedSource === 'journal'
             ? `http://localhost:5000/api/journal/${date}`
             : `http://localhost:5000/api/history/${date}`;
-    
+
         try {
             const response = await fetch(endpoint, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-    
             if (response.ok) {
                 const data = await response.json();
-                setCurrentEntry(data.content || ""); // Update content
+                setCurrentEntry(data.content || "");
             } else {
-                setCurrentEntry(""); // Clear if no entry is found
+                setCurrentEntry("");
             }
         } catch (error) {
             console.error("Error fetching entry:", error);
@@ -46,16 +45,20 @@ const History = () => {
     const dateChange = async (date) => {
         setSelectedDate(date);
         const formattedDate = formatDate(date);
-        fetchEntry(formattedDate); // Fetch the entry for the selected date
+        fetchEntry(formattedDate);
     };
-    
 
     const saveEntry = async () => {
         const token = localStorage.getItem("token");
         const formattedDate = formatDate(selectedDate);
-      
+
+        // ACHTUNG: Endpoint unterscheidet sich nach source
+        const endpoint = source === 'journal'
+            ? "http://localhost:5000/api/journal/save"
+            : "http://localhost:5000/api/history/save";
+
         try {
-            await fetch("http://localhost:5000/api/journal/save", {
+            await fetch(endpoint, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -63,8 +66,10 @@ const History = () => {
                 },
                 body: JSON.stringify({ date: formattedDate, content: currentEntry }),
             });
+            alert("Eintrag erfolgreich gespeichert!");
         } catch (error) {
-            console.error("Error saving entry:", error); // Log errors for debugging
+            console.error("Error saving entry:", error);
+            alert("Fehler beim Speichern des Eintrags.");
         }
     };
 

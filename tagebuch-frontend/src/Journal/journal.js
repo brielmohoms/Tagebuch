@@ -4,8 +4,8 @@ import { MdDelete } from 'react-icons/md';
 import './journal.css';
 import { fetchMotivationalMessage, createJournalEntry, deleteJournalEntry, fetchJournalEntries } from '../services/api';
 
-const Journal = ({ userId }) => {
-  const [penColor, setPenColor] = useState('#151515'); // Default pen color
+const Journal = () => {
+  const [penColor, setPenColor] = useState('#151515');
   const [text, setText] = useState('');
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [pageCount, setPageCount] = useState(1);
@@ -15,36 +15,34 @@ const Journal = ({ userId }) => {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    // Fetch motivational message
-    const fetchQuote = async () => {
+    const loadQuote = async () => {
       try {
         const quote = await fetchMotivationalMessage();
         setCurrentQuote(quote.content);
       } catch (error) {
         console.error('Error fetching motivational message:', error);
-        setCurrentQuote('Keep going!'); // Fallback message
+        setCurrentQuote('Keep going!');
       }
     };
 
-    // Fetch user's journal entries
-    const fetchEntries = async () => {
+    const loadEntries = async () => {
       try {
-        const entries = await fetchJournalEntries(userId);
-        setEntries(entries);
-        if (entries.length > 0) {
-          setText(entries[0].content); // Load the first page content
-          setPageCount(entries.length);
+        const fetchedEntries = await fetchJournalEntries();
+        setEntries(fetchedEntries);
+        if (fetchedEntries.length > 0) {
+          setText(fetchedEntries[0].content || '');
+          setPageCount(fetchedEntries.length);
         } else {
-          setText(''); // Start with an empty page
+          setText('');
         }
       } catch (error) {
         console.error('Error fetching journal entries:', error);
       }
     };
 
-    fetchQuote(); // Fetch motivational message once on page load
-    fetchEntries(); // Fetch journal entries once on page load
-  }, [userId]);
+    loadQuote();
+    loadEntries();
+  }, []);
 
   const changePenColor = (color) => {
     setPenColor(color);
@@ -56,18 +54,17 @@ const Journal = ({ userId }) => {
 
   const addPage = async () => {
     try {
-      const newPage = { benutzerId: userId, content: '' }; // Ensure userId is passed
-      const savedPage = await createJournalEntry(newPage); // Call the API
-      setEntries([...entries, savedPage]); // Add new page to the state
+      const newPageData = { content: '' };
+      const savedPage = await createJournalEntry(newPageData);
+      setEntries([...entries, savedPage]);
       setPageCount(pageCount + 1);
-      setText(''); // Clear the text area for the new page
-      setCurrentPageIndex(pageCount); // Navigate to the new page
+      setText('');
+      setCurrentPageIndex(pageCount);
     } catch (error) {
       console.error('Error adding page:', error);
       alert('Failed to add a new page. Please try again.');
     }
   };
-  
 
   const deletePage = async () => {
     if (pageCount > 1 && window.confirm('Are you sure you want to delete this page?')) {
@@ -79,7 +76,6 @@ const Journal = ({ userId }) => {
         setEntries(updatedEntries);
         setPageCount(updatedEntries.length);
 
-        // Adjust the current page index
         if (currentPageIndex > 0) {
           setCurrentPageIndex(currentPageIndex - 1);
           setText(updatedEntries[currentPageIndex - 1]?.content || '');

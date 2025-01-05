@@ -1,40 +1,42 @@
+// server.js
 const express = require('express');
-const { connectDB } = require('./db');
+const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-
-// Connect to the database
-//connectDB();
+const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
-// Routes
-app.use('/api/journal', require('./routes/journal'));
-app.use('/api/history', require('./routes/history'));
+// Routen importieren
+const authRoutes = require('./routes/auth');
+const journalRoutes = require('./routes/journal');
+const motivationRoutes = require('./routes/motivationalMessage');
+const feedbackRoutes = require('./routes/feedback');
 
-// Start server
-/*const PORT = process.env.PORT || 5000;
+// Routen registrieren
+app.use('/api/auth', authRoutes);
+app.use('/api/journal', journalRoutes);
+app.use('/api/motivation', motivationRoutes);
+app.use('/api/feedback', feedbackRoutes);
+
+// Test-Route
+app.get('/', (req, res) => {
+  res.send('Welcome to Tagebuch API');
+});
+
+// MongoDB-Verbindung
+mongoose.connect('mongodb://localhost/tagebuch', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('MongoDB connected');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});*/
-
-const startServer = async () => {
-  try {
-    // Connect to the database
-    await connectDB();
-
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1); // Exit process with failure code
-  }
-};
-
-// Initialize the server
-startServer();
+});

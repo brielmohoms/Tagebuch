@@ -1,37 +1,46 @@
+// routes/feedback.js
 const express = require('express');
 const Feedback = require('../models/Feedback');
+const auth = require('../middleware/auth');
 const router = express.Router();
 
-// Submit feedback
-router.post('/', async (req, res) => {
+// Feedback absenden
+router.post('/', auth, async (req, res) => {
   try {
-    const { benutzerId, rating, comment, isPublic } = req.body;
+    const { rating, comment, isPublic } = req.body;
 
+    // rating ODER comment muss mindestens existieren
     if (!rating && !comment) {
-      return res.status(400).send({ error: 'Either a rating or comment is required.' });
+      return res
+        .status(400)
+        .json({ error: 'Either a rating or a comment is required.' });
     }
 
+    // min=1 => rating=0 ist invalid
     const feedback = new Feedback({
-      benutzerId,
-      rating,
-      comment,
+      benutzerId: req.user.id,
+      bewertung: rating, 
+      kommentar: comment,
       isPublic,
     });
 
     await feedback.save();
-    res.status(201).send(feedback);
+    res.status(201).json(feedback);
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    console.error("Error submitting feedback:", error.message);
+    res.status(400).json({ error: error.message });
   }
 });
 
-// Fetch all public feedback
+// Öffentliche Feedbacks abrufen
 router.get('/public', async (req, res) => {
   try {
+    // Nur wo isPublic = true
     const feedbacks = await Feedback.find({ isPublic: true }).sort({ date: -1 });
-    res.send(feedbacks);
+    res.json(feedbacks);
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    console.error("Error fetching public feedback:", error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 

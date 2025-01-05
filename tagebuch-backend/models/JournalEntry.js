@@ -1,9 +1,11 @@
+// models/JournalEntry.js
 const mongoose = require('mongoose');
 
-const journalEntrySchema = new mongoose.Schema({
+const JournalEntrySchema = new mongoose.Schema({
   benutzerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  date: { type: Date, default: Date.now },
-  content: { type: String, required: true },
+  datum: { type: Date, required: true },
+  inhalt: { type: String },
+  stimmung: { type: String }
 });
 
-module.exports = mongoose.model('JournalEntry', journalEntrySchema);
+module.exports = mongoose.model('JournalEntry', JournalEntrySchema);

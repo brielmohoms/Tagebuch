@@ -1,17 +1,23 @@
+// src/Feedback/feedback.js
 import React, { useState, useEffect } from 'react';
 import { submitFeedback, fetchPublicFeedback } from '../services/api';
 import './feedback.css';
 
 const Feedback = () => {
   const [comment, setComment] = useState('');
-  const [rating, setRating] = useState(0);
+  // ACHTUNG: Hier rating = 1, statt 0!
+  const [rating, setRating] = useState(1);
   const [isPublic, setIsPublic] = useState(false);
   const [publicFeedback, setPublicFeedback] = useState([]);
 
   useEffect(() => {
     const loadPublicFeedback = async () => {
-      const feedbacks = await fetchPublicFeedback();
-      setPublicFeedback(feedbacks);
+      try {
+        const feedbacks = await fetchPublicFeedback();
+        setPublicFeedback(feedbacks);
+      } catch (err) {
+        console.error(err);
+      }
     };
     loadPublicFeedback();
   }, []);
@@ -22,15 +28,15 @@ const Feedback = () => {
       alert('Please provide either a rating or a comment.');
       return;
     }
-
     const feedback = { rating, comment, isPublic };
     try {
       await submitFeedback(feedback);
       alert('Feedback submitted!');
       setComment('');
-      setRating(0);
+      setRating(1);   // Wieder auf 1 setzen
       setIsPublic(false);
-      // Refresh public feedback list
+
+      // Liste neu laden
       const updatedFeedbacks = await fetchPublicFeedback();
       setPublicFeedback(updatedFeedbacks);
     } catch (error) {
@@ -40,9 +46,7 @@ const Feedback = () => {
   };
 
   const renderStars = (num) => {
-    return Array(num)
-      .fill('★')
-      .join('');
+    return Array(num).fill('★').join('');
   };
 
   return (
@@ -76,12 +80,15 @@ const Feedback = () => {
         </label>
         <button type="submit">Submit Feedback</button>
       </form>
+
       <h2>Public Feedback</h2>
       <ul className="feedback-list">
-        {publicFeedback.map((feedback) => (
-          <li key={feedback._id}>
-            {feedback.comment && <p>{feedback.comment}</p>}
-            {feedback.rating > 0 && <p className="stars">{renderStars(feedback.rating)}</p>}
+        {publicFeedback.map((fb) => (
+          <li key={fb._id}>
+            {fb.kommentar && <p>{fb.kommentar}</p>}
+            {fb.bewertung > 0 && (
+              <p className="stars">{renderStars(fb.bewertung)}</p>
+            )}
           </li>
         ))}
       </ul>
