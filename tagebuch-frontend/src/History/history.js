@@ -66,12 +66,13 @@ const History = () => {
                 },
                 body: JSON.stringify({ date: formattedDate, content: currentEntry }),
             });
-            alert("Eintrag erfolgreich gespeichert!");
+            alert("Entry saved");
         } catch (error) {
             console.error("Error saving entry:", error);
-            alert("Fehler beim Speichern des Eintrags.");
+            alert("Error saving entry");
         }
     };
+      
 
     const inputChange = (e) => {
         setCurrentEntry(e.target.value);

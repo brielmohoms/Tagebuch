@@ -10,15 +10,17 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-// Routen importieren
+// import routes
 const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
+const historyRoutes = require('./routes/history')
 const motivationRoutes = require('./routes/motivationalMessage');
 const feedbackRoutes = require('./routes/feedback');
 
-// Routen registrieren
+// register routes
 app.use('/api/auth', authRoutes);
 app.use('/api/journal', journalRoutes);
+app.use('/api/history', historyRoutes);
 app.use('/api/motivation', motivationRoutes);
 app.use('/api/feedback', feedbackRoutes);
 

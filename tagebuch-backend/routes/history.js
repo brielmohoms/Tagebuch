@@ -1,31 +1,29 @@
 // routes/history.js
-const auth = require('../middleware/auth');
 const express = require("express");
-const router = express.Router();
 const History = require("../models/History");
+const auth = require('../middleware/auth');
+const router = express.Router();
 
-// 1) History-Eintrag per Datum abrufen
-router.get("/:date", auth, async (req, res) => {
-  const { date } = req.params;
-  try {
+router.get("/:date", auth, async (req, res) =>{
+  const {date} = req.params;
+
+  try{
     const entry = await History.findOne({
       userId: req.user.id,
       date,
     });
 
-    // Falls keiner existiert, geben wir 200 + leeren Inhalt zurück
-    if (!entry) {
-      return res.status(200).json({ content: "" });
+    if(!entry){
+      return res.status(200).json({content: ""});
     }
 
-    // Ansonsten den DB-Eintrag (inkl. content) zurückgeben
     res.status(200).json(entry);
   } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+    res.status(500).json({message: "Server error", error: err.message});
   }
 });
 
-// 2) History-Eintrag speichern/aktualisieren
+
 router.post("/save", auth, async (req, res) => {
   const { date, content } = req.body;
   if (!date) {
@@ -51,5 +49,6 @@ router.post("/save", auth, async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 
 module.exports = router;
