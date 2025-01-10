@@ -1,3 +1,4 @@
+// src/services/api.js
 const API_BASE_URL = 'http://localhost:5000/api';
 
 const getToken = () => {
@@ -16,16 +17,15 @@ export const fetchJournalEntries = async () => {
   if (!response.ok) {
     throw new Error('Failed to fetch journal entries');
   }
-
   return response.json();
 };
 
-// Create or save a journal entry (if entry has an _id, it will be saved/updated on the server)
+// Create (oder save/updaten) eines Journal-Eintrags
 export const createJournalEntry = async (entry) => {
   const token = getToken();
   const response = await fetch(`${API_BASE_URL}/journal`, {
     method: 'POST',
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
@@ -34,9 +34,10 @@ export const createJournalEntry = async (entry) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(`Failed to create/save journal entry: ${errorData.message || response.statusText}`);
+    throw new Error(
+      `Failed to create/save journal entry: ${errorData.message || response.statusText}`
+    );
   }
-
   return response.json();
 };
 
@@ -52,7 +53,6 @@ export const deleteJournalEntry = async (entryId) => {
   if (!response.ok) {
     throw new Error(`Failed to delete journal entry: ${response.statusText}`);
   }
-
   return response.json();
 };
 
@@ -70,7 +70,7 @@ export const submitFeedback = async (feedback) => {
   const token = getToken();
   const response = await fetch(`${API_BASE_URL}/feedback`, {
     method: 'POST',
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
@@ -81,7 +81,6 @@ export const submitFeedback = async (feedback) => {
     const errorData = await response.json();
     throw new Error(`Failed to submit feedback: ${errorData.error || response.statusText}`);
   }
-
   return response.json();
 };
 

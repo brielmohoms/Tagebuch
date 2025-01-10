@@ -24,7 +24,7 @@ const Login = () => {
       const data = await res.json();
 
       if (res.status === 200) {
-        // Token speichern (z.B. in localStorage)
+        // Token speichern
         localStorage.setItem('token', data.token);
         alert('Login erfolgreich');
         // Weiterleitung oder weitere Aktionen

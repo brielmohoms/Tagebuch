@@ -1,3 +1,4 @@
+// seedMotivationalMessages.js
 const mongoose = require('mongoose');
 const MotivationalMessage = require('../models/MotivationalMessage');
 
@@ -12,7 +13,7 @@ const seedMotivationalMessages = async () => {
 
   try {
     console.log('Seeding motivational messages...');
-    
+
     // Insert only if no messages exist
     const existingMessages = await MotivationalMessage.countDocuments();
     if (existingMessages === 0) {
@@ -28,3 +29,5 @@ const seedMotivationalMessages = async () => {
     mongoose.connection.close();
   }
 };
+
+module.exports = seedMotivationalMessages;

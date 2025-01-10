@@ -1,4 +1,3 @@
-// src/Feedback/feedback.js
 import React, { useState, useEffect } from 'react';
 import { submitFeedback, fetchPublicFeedback } from '../services/api';
 import './feedback.css';

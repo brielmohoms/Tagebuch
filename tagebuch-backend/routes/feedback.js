@@ -16,10 +16,9 @@ router.post('/', auth, async (req, res) => {
         .json({ error: 'Either a rating or a comment is required.' });
     }
 
-    // min=1 => rating=0 ist invalid
     const feedback = new Feedback({
       benutzerId: req.user.id,
-      bewertung: rating, 
+      bewertung: rating,
       kommentar: comment,
       isPublic,
     });
@@ -35,7 +34,6 @@ router.post('/', auth, async (req, res) => {
 // Öffentliche Feedbacks abrufen
 router.get('/public', async (req, res) => {
   try {
-    // Nur wo isPublic = true
     const feedbacks = await Feedback.find({ isPublic: true }).sort({ date: -1 });
     res.json(feedbacks);
   } catch (error) {

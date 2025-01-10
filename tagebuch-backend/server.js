@@ -15,12 +15,14 @@ const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
 const motivationRoutes = require('./routes/motivationalMessage');
 const feedbackRoutes = require('./routes/feedback');
+const historyRoutes = require('./routes/history'); // ACHTUNG: WICHTIG
 
 // Routen registrieren
 app.use('/api/auth', authRoutes);
 app.use('/api/journal', journalRoutes);
 app.use('/api/motivation', motivationRoutes);
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/history', historyRoutes); // Nicht vergessen!
 
 // Test-Route
 app.get('/', (req, res) => {

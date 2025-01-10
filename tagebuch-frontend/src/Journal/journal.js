@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun, FaPlus } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import './journal.css';
-import { fetchMotivationalMessage, createJournalEntry, deleteJournalEntry, fetchJournalEntries } from '../services/api';
+import {
+  fetchMotivationalMessage,
+  createJournalEntry,
+  deleteJournalEntry,
+  fetchJournalEntries
+} from '../services/api';
 
 const Journal = () => {
   const [penColor, setPenColor] = useState('#151515');

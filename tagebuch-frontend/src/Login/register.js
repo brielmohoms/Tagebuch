@@ -25,7 +25,6 @@ const Register = () => {
       const data = await res.json();
 
       if (res.status === 200) {
-        // Token speichern (z.B. in localStorage)
         localStorage.setItem('token', data.token);
         alert('Registrierung erfolgreich');
         // Weiterleitung oder weitere Aktionen
