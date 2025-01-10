@@ -13,10 +13,9 @@ app.use(cors());
 // import routes
 const authRoutes = require('./routes/auth');
 const journalRoutes = require('./routes/journal');
-const historyRoutes = require('./routes/history')
+const historyRoutes = require('./routes/history');
 const motivationRoutes = require('./routes/motivationalMessage');
 const feedbackRoutes = require('./routes/feedback');
-const historyRoutes = require('./routes/history'); // ACHTUNG: WICHTIG
 
 // register routes
 app.use('/api/auth', authRoutes);
@@ -24,7 +23,7 @@ app.use('/api/journal', journalRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/motivation', motivationRoutes);
 app.use('/api/feedback', feedbackRoutes);
-app.use('/api/history', historyRoutes); // Nicht vergessen!
+
 
 // Test-Route
 app.get('/', (req, res) => {
