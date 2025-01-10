@@ -36,7 +36,6 @@ router.post('/register', async (req, res) => {
 
     // Bestätigungs-E-Mail versenden (ignoriere Fehler, wenn E-Mail ungültig oder das Senden nicht klappt)
     try {
-      // Beispielkonfiguration mit Gmail (bitte anpassen):
       let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -45,7 +44,6 @@ router.post('/register', async (req, res) => {
         }
       });
 
-      // Mail-Optionen
       const mailOptions = {
         from: 'deineAbsenderAdresse@gmail.com',
         to: user.email,
@@ -53,7 +51,6 @@ router.post('/register', async (req, res) => {
         text: `Hallo ${user.name},\n\nvielen Dank für deine Registrierung!\n\nDein Team von TagebuchApp`
       };
 
-      // E-Mail senden
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
           console.error('Fehler beim Senden der Bestätigungs-E-Mail:', error);
@@ -64,7 +61,6 @@ router.post('/register', async (req, res) => {
       });
     } catch (mailErr) {
       console.error('Allgemeiner Mail-Fehler:', mailErr);
-      // Ignorieren
     }
 
     // JWT erstellen

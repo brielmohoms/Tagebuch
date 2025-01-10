@@ -5,7 +5,25 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// Neuen Tagebuch-Eintrag erstellen
+// (1) NEU: Tagebucheintrag per Datum abrufen
+router.get('/:date', auth, async (req, res) => {
+  try {
+    const parsedDate = new Date(req.params.date);
+    // Sucht einen Eintrag mit exakt diesem benutzerId + diesem Datum
+    const entry = await JournalEntry.findOne({
+      benutzerId: req.user.id,
+      datum: parsedDate
+    });
+
+    // Wenn kein Eintrag existiert => { content: "" } zurückgeben
+    return res.json(entry || { content: "" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+// (2) Neuen Tagebuch-Eintrag erstellen
 router.post('/', auth, async (req, res) => {
   try {
     const benutzerId = req.user.id;
@@ -29,7 +47,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Alle Tagebucheinträge für den eingeloggten User holen
+// (3) Alle Tagebucheinträge holen
 router.get('/', auth, async (req, res) => {
   try {
     const benutzerId = req.user.id;
@@ -44,7 +62,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// "Save" Route, ähnlich wie History
+// (4) "Save"-Route, ähnlich wie History
 router.post('/save', auth, async (req, res) => {
   try {
     const benutzerId = req.user.id;
@@ -78,18 +96,15 @@ router.post('/save', auth, async (req, res) => {
 });
 
 /**
- * NEU: Delete-Route, damit "deleteJournalEntry()" aus dem Frontend funktioniert.
- * z.B.: DELETE http://localhost:5000/api/journal/1234abcd
+ * (5) Delete-Route
  */
 router.delete('/:id', auth, async (req, res) => {
   try {
-    // Eintrag suchen
     const entry = await JournalEntry.findById(req.params.id);
     if (!entry) {
       return res.status(404).json({ msg: 'Journal entry not found' });
     }
 
-    // Nur der Inhaber darf löschen
     if (entry.benutzerId.toString() !== req.user.id) {
       return res.status(401).json({ msg: 'Not authorized' });
     }

@@ -49,7 +49,10 @@ const Navbar = () => {
           <>
             <li><Link to="/profile">Hallo, {userName}</Link></li>
             <li>
-              <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: '#DA1766', fontWeight: 'bold', cursor: 'pointer' }}>
+              <button
+                onClick={handleLogout}
+                style={{ background: 'none', border: 'none', color: '#DA1766', fontWeight: 'bold', cursor: 'pointer' }}
+              >
                 Logout
               </button>
             </li>
