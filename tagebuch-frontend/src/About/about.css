@@ -89,4 +89,74 @@
     font-size: 1.1rem;
     color: #151515; 
   }
+
+  /* Responsive design */
+@media (max-width: 768px) {
+  .about-page {
+    padding: 15px;
+  }
+
+  .about-page h1 {
+      font-size: 1.8rem;
+  }
+
+  .about-page p {
+      font-size: 0.95rem;
+  }
+
+  .features-list{
+    gap: 15px;
+  }
+
+  .feature-item {
+      flex-direction: column;
+      padding: 12px;
+      width: calc(100% - 30px);
+  }
+
+  .feature-icon {
+    font-size: 1.3rem;
+    margin: 0 0 10px;
+  }
+
+  .feature-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .about-page {
+    padding: 40px;
+    max-width: 1600px;
+    margin: 0, auto;
+  }
+
+  .about-page h1 {
+    font-size: 3rem;
+  }
+
+  .about-page p {
+      font-size: 1.5rem;
+  }
+
+  .features-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .feature-item {
+      padding: 20px;
+      max-width: 400px;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+  }
+
+  .feature-text {
+    font-size: 1.1rem;
+  }
+}
   

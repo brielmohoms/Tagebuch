@@ -11,6 +11,10 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false); // Close the menu
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -41,16 +45,19 @@ const Navbar = () => {
         &#9776;
       </div>
       <ul className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-        <li><Link to="/">About</Link></li>
-        <li><Link to="/journal">Journal</Link></li>
-        <li><Link to="/history">History</Link></li>
-        <li><Link to="/feedback">Feedback</Link></li>
+        <li><Link to="/" onClick={closeMenu}>About</Link></li>
+        <li><Link to="/journal" onClick={closeMenu}>Journal</Link></li>
+        <li><Link to="/history" onClick={closeMenu}>History</Link></li>
+        <li><Link to="/feedback" onClick={closeMenu}>Feedback</Link></li>
         {userName ? (
           <>
             <li><Link to="/profile">Hallo, {userName}</Link></li>
             <li>
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  closeMenu();
+                }}
                 style={{ background: 'none', border: 'none', color: '#DA1766', fontWeight: 'bold', cursor: 'pointer' }}
               >
                 Logout
@@ -58,7 +65,7 @@ const Navbar = () => {
             </li>
           </>
         ) : (
-          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/login" onClick={closeMenu}>Login</Link></li>
         )}
       </ul>
     </nav>

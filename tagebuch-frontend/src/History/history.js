@@ -52,7 +52,6 @@ const History = () => {
     const token = localStorage.getItem("token");
     const formattedDate = formatDate(selectedDate);
 
-    // ACHTUNG: Endpoint unterscheidet sich nach source
     const endpoint =
       source === 'journal'
         ? "http://localhost:5000/api/journal/save"
