@@ -140,6 +140,39 @@ body{
     }
 }
 
+@media (max-width: 480px) {
+    .history-container {
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 1.8rem; /* Smaller title for narrow screens */
+        text-align: center; /* Center align the title */
+    }
+
+    .history-body {
+        padding: 10px;
+    }
+
+    .content-box {
+        padding: 15px;
+    }
+
+    .textarea {
+        font-size: 1rem; /* Smaller font for input */
+        min-height: 200px; /* Smaller minimum height */
+    }
+
+    .save-button {
+        font-size: 1rem; /* Slightly smaller button text */
+        padding: 8px 15px;
+    }
+
+    .custom-calendar {
+        font-size: 1rem; /* Adjust calendar font size for mobile */
+    }
+}
+
 @media (min-width: 1600px) {
     .history-body{
         padding: 60px;
