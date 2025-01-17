@@ -8,7 +8,7 @@ const getToken = () => {
 // Fetch all journal entries for the logged-in user
 export const fetchJournalEntries = async () => {
   const token = getToken();
-  const response = await fetch(`${API_BASE_URL}/journal`, {
+  const response = await fetch(`${API_BASE_URL}/api/journal`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -23,7 +23,7 @@ export const fetchJournalEntries = async () => {
 // Create (oder save/updaten) eines Journal-Eintrags
 export const createJournalEntry = async (entry) => {
   const token = getToken();
-  const response = await fetch(`${API_BASE_URL}/journal`, {
+  const response = await fetch(`${API_BASE_URL}/api/journal`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const createJournalEntry = async (entry) => {
 
 export const deleteJournalEntry = async (entryId) => {
   const token = getToken();
-  const response = await fetch(`${API_BASE_URL}/journal/${entryId}`, {
+  const response = await fetch(`${API_BASE_URL}/api/journal/${entryId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ export const deleteJournalEntry = async (entryId) => {
 
 // Fetch today's motivational message (no auth required)
 export const fetchMotivationalMessage = async () => {
-  const response = await fetch(`${API_BASE_URL}/motivation`);
+  const response = await fetch(`${API_BASE_URL}/api/motivation`);
   if (!response.ok) {
     throw new Error('Failed to fetch motivational message');
   }
@@ -68,7 +68,7 @@ export const fetchMotivationalMessage = async () => {
 // Submit feedback (requires auth)
 export const submitFeedback = async (feedback) => {
   const token = getToken();
-  const response = await fetch(`${API_BASE_URL}/feedback`, {
+  const response = await fetch(`${API_BASE_URL}/api/feedback`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const submitFeedback = async (feedback) => {
 
 // Fetch all public feedback (no auth required)
 export const fetchPublicFeedback = async () => {
-  const response = await fetch(`${API_BASE_URL}/feedback/public`);
+  const response = await fetch(`${API_BASE_URL}/api/feedback/public`);
   if (!response.ok) {
     throw new Error('Failed to fetch public feedback');
   }
