@@ -23,8 +23,8 @@ const History = () => {
     const token = localStorage.getItem("token");
     const endpoint =
       selectedSource === 'journal'
-        ? `http://localhost:5000/api/journal/${date}`
-        : `http://localhost:5000/api/history/${date}`;
+        ? `${process.env.REACT_APP_API_BASE_URL}/api/journal/${date}`
+        : `${process.env.REACT_APP_API_BASE_URL}/api/history/${date}`;
 
     try {
       const response = await fetch(endpoint, {
@@ -54,8 +54,8 @@ const History = () => {
 
     const endpoint =
       source === 'journal'
-        ? "http://localhost:5000/api/journal/save"
-        : "http://localhost:5000/api/history/save";
+        ? `${process.env.REACT_APP_API_BASE_URL}/api/journal/save`
+        : `${process.env.REACT_APP_API_BASE_URL}/api/history/save`;
 
         try {
             await fetch(endpoint, {
