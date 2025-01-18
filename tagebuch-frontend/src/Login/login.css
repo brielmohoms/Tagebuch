@@ -1,71 +1,12 @@
-.auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    background-color: #fce4ec;
-  }
-  
-  .auth-form {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .auth-title {
-    font-size: 2rem;
-    color: #880e4f;
-    margin-bottom: 30px;
-    text-align: center;
-  }
-  
-  .auth-field {
-    margin-bottom: 20px;
-  }
-  
-  .auth-field label {
-    display: block;
-    margin-bottom: 5px;
-    color: #880e4f;
-  }
-  
-  .auth-field input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .auth-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #e91e63;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  
-  .auth-button:hover {
-    background-color: #c2185b;
-  }
-  
-  .auth-switch {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .auth-switch a {
-    color: #880e4f;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  
-  .auth-switch a:hover {
-    color: #c2185b;
-  }
-  
+.container {
+  background-color: #fce4ec;
+}
+.title {
+  color: #880e4f;
+}
+a {
+  color: #880e4f;
+}
+a:hover {
+  color: #c2185b;
+}

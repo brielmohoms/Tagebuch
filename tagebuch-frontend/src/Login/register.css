@@ -1,46 +1,30 @@
-/* Du kannst die gleichen Styles wie in login.css verwenden */
+.container {
+  background-color: #fce4ec;
+}
 
-.auth-container {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-form {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-title {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-field {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-field label {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-field input {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-button {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-button:hover {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-switch {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-switch a {
-    /* Gleich wie in login.css */
-  }
-  
-  .auth-switch a:hover {
-    /* Gleich wie in login.css */
-  }
+.card {
+  border: none;
+}
+
+.text-primary {
+  color: #880e4f !important;
+}
+
+.btn-primary {
+  background-color: #e91e63;
+  border-color: #e91e63;
+}
+
+.btn-primary:hover {
+  background-color: #c2185b;
+  border-color: #c2185b;
+}
+
+a.text-primary {
+  color: #880e4f !important;
+}
+
+a.text-primary:hover {
+  color: #c2185b !important;
+}
   
