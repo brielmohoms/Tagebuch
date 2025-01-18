@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaPen, FaShieldAlt, FaHistory, FaCommentDots, FaSun } from 'react-icons/fa';
 
-import './about.css'; // Import a CSS file for styling
+import './about.css'; 
 
 const About = () => {
   // Dynamic list of items
