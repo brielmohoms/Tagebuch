@@ -46,11 +46,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../tagebuch-frontend/build/index.html"));
-});
-
-
 // MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)

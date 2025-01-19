@@ -11,7 +11,7 @@ const nodemailer = require('nodemailer');
 
 // Registrierungsroute
 router.post('/register', async (req, res) => {
-  const { name, email, passwort } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     // Prüfen, ob der Benutzer bereits existiert
@@ -24,12 +24,12 @@ router.post('/register', async (req, res) => {
     user = new User({
       name,
       email,
-      passwort
+      password
     });
 
     // Passwort hashen
     const salt = await bcrypt.genSalt(10);
-    user.passwort = await bcrypt.hash(passwort, salt);
+    user.password = await bcrypt.hash(password, salt);
 
     // Benutzer speichern
     await user.save();
@@ -88,7 +88,7 @@ router.post('/register', async (req, res) => {
 
 // Login-Route
 router.post('/login', async (req, res) => {
-  const { email, passwort } = req.body;
+  const { email, password } = req.body;
 
   try {
     // Benutzer suchen
@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Passwort vergleichen
-    const isMatch = await bcrypt.compare(passwort, user.passwort);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: 'Ungültige Anmeldedaten' });
     }
@@ -128,7 +128,7 @@ router.post('/login', async (req, res) => {
 // Route um den aktuellen Benutzer zurückzugeben
 router.get('/me', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-passwort');
+    const user = await User.findById(req.user.id).select('-password');
     if (!user) {
       return res.status(404).json({ msg: 'Benutzer nicht gefunden' });
     }
