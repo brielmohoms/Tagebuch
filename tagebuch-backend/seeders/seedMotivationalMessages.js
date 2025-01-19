@@ -1,7 +1,9 @@
+// scripts/seedMotivationalMessages.js (example name)
 const mongoose = require('mongoose');
 const MotivationalMessage = require('../models/MotivationalMessage');
 
 const seedMotivationalMessages = async () => {
+  // MAKE SURE this uses `content` not `inhalt`
   const messages = [
     { content: 'Believe in yourself and all that you are!' },
     { content: 'Every day is a second chance to succeed!' },
@@ -13,7 +15,7 @@ const seedMotivationalMessages = async () => {
   try {
     console.log('Seeding motivational messages...');
     
-    // Insert only if no messages exist
+    // Only insert if no messages exist
     const existingMessages = await MotivationalMessage.countDocuments();
     if (existingMessages === 0) {
       await MotivationalMessage.insertMany(messages);
@@ -28,3 +30,5 @@ const seedMotivationalMessages = async () => {
     mongoose.connection.close();
   }
 };
+
+seedMotivationalMessages();
