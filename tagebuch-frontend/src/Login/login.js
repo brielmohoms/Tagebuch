@@ -1,33 +1,48 @@
-// src/components/Login.js
+// src/Login/login.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
   const [passwort, setPasswort] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const user = { email, passwort };
+    const userData = { email, passwort };
 
     try {
       const res = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
       });
 
       const data = await res.json();
 
       if (res.status === 200) {
-        // Token speichern (z.B. in localStorage)
+        // 1) Token speichern
         localStorage.setItem('token', data.token);
+
+        // 2) Direkt nach Login: /me abrufen
+        const meRes = await fetch('http://localhost:5000/api/auth/me', {
+          headers: { Authorization: `Bearer ${data.token}` },
+        });
+        if (!meRes.ok) {
+          alert('Fehler beim Laden der Benutzerdaten');
+          return;
+        }
+        const meData = await meRes.json();
+
+        // 3) Globalen State aktualisieren → Navbar aktualisiert sich automatisch
+        setUser(meData);
+
         alert('Login erfolgreich');
-        // Weiterleitung oder weitere Aktionen
+
+        // 4) Clientseitige Navigation (keine vollständige Seite-Neu­ladung)
+        navigate('/');
       } else {
         alert(data.msg || 'Anmeldung fehlgeschlagen');
       }

@@ -1,14 +1,13 @@
+// src/Layout/layout.js
 import React from 'react';
 import Navbar from '../Navbar/navbar';
 import './layout.css';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, user, setUser }) => {
   return (
     <div className="layout">
-      <Navbar />
-      <div className="content">
-        {children} {/* This renders the page content dynamically */}
-      </div>
+      <Navbar user={user} setUser={setUser} />
+      <div className="content">{children}</div>
     </div>
   );
 };

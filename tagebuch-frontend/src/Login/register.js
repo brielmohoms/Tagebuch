@@ -1,12 +1,13 @@
-// src/components/Register.js
+// src/Login/register.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './register.css';
 
-const Register = () => {
+const Register = ({ setUser }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [passwort, setPasswort] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,19 +17,32 @@ const Register = () => {
     try {
       const res = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
       });
 
       const data = await res.json();
 
       if (res.status === 200) {
-        // Token speichern (z.B. in localStorage)
+        // 1) Token speichern
         localStorage.setItem('token', data.token);
+
+        // 2) Gleich /me abrufen
+        const meRes = await fetch('http://localhost:5000/api/auth/me', {
+          headers: { Authorization: `Bearer ${data.token}` },
+        });
+        if (!meRes.ok) {
+          alert('Fehler beim Abruf der Benutzerdaten');
+          return;
+        }
+        const meData = await meRes.json();
+
+        // 3) Globalen State setzen → Navbar wird aktualisiert
+        setUser(meData);
+
         alert('Registrierung erfolgreich');
-        // Weiterleitung oder weitere Aktionen
+        // 4) Navigieren zur Startseite oder Profil
+        navigate('/');
       } else {
         alert(data.msg || 'Registrierung fehlgeschlagen');
       }
