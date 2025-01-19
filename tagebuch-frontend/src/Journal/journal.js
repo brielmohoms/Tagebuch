@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaMoon, FaSun, FaPlus } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Form,
-  InputGroup
-} from 'react-bootstrap'; // <-- React-Bootstrap imports
-
 import './journal.css';
 import {
   fetchMotivationalMessage,
@@ -139,99 +130,54 @@ const Journal = () => {
   };
 
   return (
-    <Container
-      fluid
-      className={`journal-container py-4 ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
-      style={{ minHeight: '100vh' }}
-    >
-      {/* Quote Section */}
-      <Row className="mb-3">
-        <Col>
-          <div className="quote-section text-center">
-            <p className="quote">{currentQuote}</p>
-          </div>
-        </Col>
-      </Row>
-
-      {/* Menu Section (color picker, mode toggle, add/delete page) */}
-      <Row>
-        <Col>
-          <div className="d-flex align-items-center justify-content-end mb-3">
-            {/* Color picker on left if desired, so margin-right auto: */}
-            <input
-              type="color"
-              value={penColor}
-              onChange={(e) => changePenColor(e.target.value)}
-              style={{ width: 40, height: 40, cursor: 'pointer', marginRight: 'auto' }}
-            />
-            {/* Dark Mode Toggle */}
-            <Button variant="outline-secondary" onClick={toggleDarkMode} className="mx-2">
-              {isDarkMode ? <FaSun /> : <FaMoon />}
-            </Button>
-            {/* Add Page */}
-            <Button variant="danger" onClick={addPage} className="mx-2">
-              <FaPlus />
-            </Button>
-            {/* Delete Page */}
-            <Button variant="dark" onClick={deletePage}>
-              <MdDelete />
-            </Button>
-          </div>
-        </Col>
-      </Row>
-
-      {/* Main Page Section: TextArea + Save */}
-      <Row className="mb-3">
-        <Col md={{ span: 8, offset: 2 }}>
-          <Form>
-            <Form.Group controlId="journalTextarea">
-              <Form.Control
-                as="textarea"
-                rows={8}
-                style={{ color: penColor, resize: 'vertical' }}
-                value={text}
-                onChange={handleTextChange}
-                placeholder="Write your thoughts here..."
-              />
-            </Form.Group>
-            <div className="text-center mt-3">
-              <Button variant="danger" onClick={savePage} disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Save Page'}
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-
-      {/* Page Navigation (Previous / Next) */}
-      <Row>
-        <Col md={{ span: 8, offset: 2 }} className="d-flex justify-content-between mb-3">
-          <Button
-            variant="danger"
-            onClick={goToPreviousPage}
-            disabled={currentPageIndex === 0}
-          >
-            Previous Page
-          </Button>
-          <Button
-            variant="danger"
-            onClick={goToNextPage}
-            disabled={currentPageIndex === entries.length - 1}
-          >
-            Next Page
-          </Button>
-        </Col>
-      </Row>
-
-      {/* Page Count */}
-      <Row>
-        <Col>
-          <p className="text-center">
-            Page {currentPageIndex + 1} of {pageCount}
-          </p>
-        </Col>
-      </Row>
-    </Container>
+    <div className={`journal-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <div className="quote-section">
+        <p className="quote">{currentQuote}</p>
+      </div>
+      <div className="menu">
+        <input
+          type="color"
+          value={penColor}
+          onChange={(e) => changePenColor(e.target.value)}
+          className="color-picker"
+        />
+        <button className="menu-button dark-mode-toggle" onClick={toggleDarkMode}>
+          {isDarkMode ? <FaSun /> : <FaMoon />}
+        </button>
+        <button className="menu-button add-page" onClick={addPage}>
+          <FaPlus />
+        </button>
+        <button className="menu-button delete-page" onClick={deletePage}>
+          <MdDelete />
+        </button>
+      </div>
+      <div className="page">
+        <textarea
+          style={{ color: penColor }}
+          value={text}
+          onChange={handleTextChange}
+          placeholder="Write your thoughts here..."
+        />
+        <div className="save-section">
+          <button onClick={savePage} disabled={isSaving}>
+            {isSaving ? 'Saving...' : 'Save Page'}
+          </button>
+        </div>
+      </div>
+      <div className="page-navigation">
+        <button onClick={goToPreviousPage} disabled={currentPageIndex === 0}>
+          Previous Page
+        </button>
+        <button onClick={goToNextPage} disabled={currentPageIndex === entries.length - 1}>
+          Next Page
+        </button>
+      </div>
+      <div className="page-count">
+        <p>
+          Page {currentPageIndex + 1} of {pageCount}
+        </p>
+      </div>
+    </div>
   );
 };
 
