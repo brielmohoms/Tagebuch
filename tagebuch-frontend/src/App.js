@@ -14,7 +14,7 @@ import Profile from './Profile/profile'; // NEU importiert!
 
 function App() {
   return (
-    <Router>
+    <Router> 
       <Layout>
         <Routes>
           <Route path="/" element={<About />} />
